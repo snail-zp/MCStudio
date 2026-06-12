@@ -1,16 +1,18 @@
-# MCStudio ACS IO Tester
+# MCStudio
 
-`MCStudio ACS IO Tester` is a Qt/C++ desktop utility for ACS motion controllers.
+MCStudio is a Qt/C++ desktop utility for ACS motion-control workstations.
 
 Current scope:
 
-- Connect to ACS simulator
-- Connect to ACS controller over Ethernet TCP or UDP
-- Poll digital input port state
-- Poll digital output port state
-- Toggle digital outputs
-- Load IO points from JSON config
-- Write runtime logs to `Logs/`
+- Connect to ACS simulator.
+- Connect to ACS controller over Ethernet TCP or UDP.
+- Common Interface command execution.
+- Material-transfer topology and local refresh.
+- IO test and polling.
+- Workstation calibration.
+- Axis performance tests and reports.
+- System logs.
+- Runtime logs written to `Logs/`.
 
 ## Project Layout
 
@@ -19,17 +21,12 @@ MCStudio/
 ├─ CMakeLists.txt
 ├─ README.md
 ├─ Config/
-│  ├─ acs_io_config.json
-│  └─ io_config.json
 ├─ docs/
-│  ├─ qt_io_tester_usage.md
-│  └─ software_architecture.md
+├─ Exports/
+├─ Image/
+├─ resources/
 ├─ src/
-│  ├─ acscontroller.cpp/.h
-│  ├─ filelogger.cpp/.h
-│  ├─ ioconfig.cpp/.h
-│  ├─ main.cpp
-│  └─ mainwindow.cpp/.h
+├─ tools/
 └─ build/
 ```
 
@@ -57,6 +54,14 @@ call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliar
 "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --build build
 ```
 
+Existing local build folder can also be rebuilt with:
+
+```bat
+cd /d C:\Users\22841\Desktop\MCStudio\build
+call "C:\Program Files (x86)\Microsoft Visual Studio\2022\BuildTools\VC\Auxiliary\Build\vcvars64.bat"
+ninja
+```
+
 ## Run
 
 After build, the executable is:
@@ -67,37 +72,20 @@ build\MCStudioIoTester.exe
 
 Recommended first test flow:
 
-1. Start with `Simulator`
-2. Verify DI/DO table refreshes
-3. Switch to `Ethernet TCP`
-4. Set controller IP and port
-5. Update `Config/acs_io_config.json` to your real point list
+1. Start with `Simulator`.
+2. Verify default page is `常用接口`.
+3. Click material-transfer buttons and confirm only local topology/status updates.
+4. Switch to IO, workstation calibration, and axis performance pages as needed.
+5. Update `Config/*.json` for real controller deployments.
 
-## Config
+## Documentation
 
-The IO point table is driven by:
+Latest handoff:
 
-`Config/acs_io_config.json`
+- [docs/handoff_20260613.md](docs/handoff_20260613.md)
 
-Each point includes:
+Architecture and structure:
 
-- `name`
-- `direction`
-- `port`
-- `bit`
-- `description`
+- [docs/software_architecture.md](docs/software_architecture.md)
+- [docs/software_structure_diagram.md](docs/software_structure_diagram.md)
 
-## Current Limitations
-
-- Digital IO only
-- No analog IO yet
-- No grouped test workflow yet
-- No axis, calibration, or interface test modules yet
-
-## Next Recommended Steps
-
-- Add AI/AO support
-- Add batch IO test sequences
-- Add signal edge-trigger logging
-- Add controller status diagnostics
-- Add operator-oriented Chinese UI text once the workflow is stable
