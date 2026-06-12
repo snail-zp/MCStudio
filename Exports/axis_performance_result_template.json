@@ -1,0 +1,154 @@
+{
+  "axisResults": [
+    {
+      "axisName": "X轴",
+      "axisNumber": 0,
+      "tests": [
+        {
+          "key": "static_jitter",
+          "name": "静态抖动",
+          "meta": {
+            "sampleIntervalMs": 1,
+            "pointCount": 10
+          },
+          "series": [
+            {
+              "key": "position",
+              "name": "位置反馈",
+              "unit": "mm",
+              "values": [0.001, 0.002, 0.0015]
+            }
+          ]
+        },
+        {
+          "key": "settling_time",
+          "name": "稳定时间",
+          "meta": {
+            "sampleIntervalMs": 1,
+            "pointCount": 10
+          },
+          "series": [
+            {
+              "key": "position",
+              "name": "位置反馈",
+              "unit": "mm",
+              "values": [0.0, 0.02, 0.06]
+            },
+            {
+              "key": "ast_inpos",
+              "name": "AST.INPOS",
+              "unit": "",
+              "values": [0, 0, 1]
+            },
+            {
+              "key": "mst_inpos",
+              "name": "MST.INPOS",
+              "unit": "",
+              "values": [0, 0, 1]
+            }
+          ]
+        },
+        {
+          "key": "speed_uniformity",
+          "name": "速度均匀性",
+          "meta": {
+            "sampleIntervalMs": 1,
+            "commandSpeed": 100.0
+          },
+          "series": [
+            {
+              "key": "velocity",
+              "name": "速度反馈",
+              "unit": "mm/s",
+              "values": [99.8, 100.1, 100.0]
+            }
+          ]
+        },
+        {
+          "key": "dynamic_capability",
+          "name": "最大速度/加速度/加加速度",
+          "meta": {
+            "sampleIntervalMs": 1
+          },
+          "series": [
+            {
+              "key": "position",
+              "name": "位置反馈",
+              "unit": "mm",
+              "values": [0.0, 1.2, 2.5]
+            },
+            {
+              "key": "velocity",
+              "name": "速度反馈",
+              "unit": "mm/s",
+              "values": [0.0, 50.0, 100.0]
+            },
+            {
+              "key": "acceleration",
+              "name": "加速度",
+              "unit": "mm/s2",
+              "values": [0.0, 500.0, 1000.0]
+            },
+            {
+              "key": "jerk",
+              "name": "加加速度",
+              "unit": "mm/s3",
+              "values": [0.0, 5000.0, 10000.0]
+            }
+          ]
+        },
+        {
+          "key": "power_off_drop_distance",
+          "name": "掉使能下降距离",
+          "meta": {
+            "pointCount": 10
+          },
+          "series": [
+            {
+              "key": "drop_distance",
+              "name": "下降距离",
+              "unit": "mm",
+              "values": [0.003, 0.002, 0.004]
+            }
+          ]
+        },
+        {
+          "key": "limit_window",
+          "name": "限位窗口",
+          "series": [
+            {
+              "key": "negative_electrical_limit",
+              "name": "负向电气限位",
+              "unit": "mm",
+              "values": [-100.0]
+            },
+            {
+              "key": "positive_electrical_limit",
+              "name": "正向电气限位",
+              "unit": "mm",
+              "values": [100.0]
+            },
+            {
+              "key": "negative_software_limit",
+              "name": "负向软件限位",
+              "unit": "mm",
+              "values": [-99.0]
+            },
+            {
+              "key": "positive_software_limit",
+              "name": "正向软件限位",
+              "unit": "mm",
+              "values": [99.0]
+            },
+            {
+              "key": "travel",
+              "name": "行程",
+              "unit": "mm",
+              "values": [198.0]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

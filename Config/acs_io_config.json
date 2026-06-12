@@ -1,0 +1,139 @@
+{
+  "controller_type": "ACS",
+  "connection_defaults": {
+    "connection_type": "EthernetTcp",
+    "ip": "10.0.0.100",
+    "port": 701,
+    "poll_interval_ms": 100
+  },
+  "io_points": [
+    {
+      "id": "di_0",
+      "name": "General DI0",
+      "direction": "input",
+      "port": 0,
+      "bit": 0,
+      "description": "ACS general input bit 0"
+    },
+    {
+      "id": "di_1",
+      "name": "General DI1",
+      "direction": "input",
+      "port": 0,
+      "bit": 1,
+      "description": "ACS general input bit 1"
+    },
+    {
+      "id": "di_2",
+      "name": "General DI2",
+      "direction": "input",
+      "port": 0,
+      "bit": 2,
+      "description": "ACS general input bit 2"
+    },
+    {
+      "id": "di_3",
+      "name": "General DI3",
+      "direction": "input",
+      "port": 0,
+      "bit": 3,
+      "description": "ACS general input bit 3"
+    },
+    {
+      "id": "di_4",
+      "name": "General DI4",
+      "direction": "input",
+      "port": 0,
+      "bit": 4,
+      "description": "ACS general input bit 4"
+    },
+    {
+      "id": "di_5",
+      "name": "General DI5",
+      "direction": "input",
+      "port": 0,
+      "bit": 5,
+      "description": "ACS general input bit 5"
+    },
+    {
+      "id": "di_6",
+      "name": "General DI6",
+      "direction": "input",
+      "port": 0,
+      "bit": 6,
+      "description": "ACS general input bit 6"
+    },
+    {
+      "id": "di_7",
+      "name": "General DI7",
+      "direction": "input",
+      "port": 0,
+      "bit": 7,
+      "description": "ACS general input bit 7"
+    },
+    {
+      "id": "do_0",
+      "name": "General DO0",
+      "direction": "output",
+      "port": 0,
+      "bit": 0,
+      "description": "ACS general output bit 0"
+    },
+    {
+      "id": "do_1",
+      "name": "General DO1",
+      "direction": "output",
+      "port": 0,
+      "bit": 1,
+      "description": "ACS general output bit 1"
+    },
+    {
+      "id": "do_2",
+      "name": "General DO2",
+      "direction": "output",
+      "port": 0,
+      "bit": 2,
+      "description": "ACS general output bit 2"
+    },
+    {
+      "id": "do_3",
+      "name": "General DO3",
+      "direction": "output",
+      "port": 0,
+      "bit": 3,
+      "description": "ACS general output bit 3"
+    },
+    {
+      "id": "do_4",
+      "name": "General DO4",
+      "direction": "output",
+      "port": 0,
+      "bit": 4,
+      "description": "ACS general output bit 4"
+    },
+    {
+      "id": "do_5",
+      "name": "General DO5",
+      "direction": "output",
+      "port": 0,
+      "bit": 5,
+      "description": "ACS general output bit 5"
+    },
+    {
+      "id": "do_6",
+      "name": "General DO6",
+      "direction": "output",
+      "port": 0,
+      "bit": 6,
+      "description": "ACS general output bit 6"
+    },
+    {
+      "id": "do_7",
+      "name": "General DO7",
+      "direction": "output",
+      "port": 0,
+      "bit": 7,
+      "description": "ACS general output bit 7"
+    }
+  ]
+}

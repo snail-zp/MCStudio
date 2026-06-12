@@ -1,0 +1,110 @@
+{
+    "axisPerformanceProfiles": [
+        {
+            "profileName": "Simulator Motion Protocol",
+            "description": "Prebuilt demo profile matching the simulator buffers 23 and 32.",
+            "axes": [
+                {
+                    "axisName": "X-Sim",
+                    "axisNumber": 0,
+                    "unit": "mm",
+                    "testItems": [
+                        {
+                            "key": "limit_window",
+                            "name": "Electrical and Software Limits",
+                            "description": "Simulated travel range validation.",
+                            "parameters": [
+                                { "key": "electrical_negative", "label": "Electrical Negative", "unit": "mm", "value": "-150" },
+                                { "key": "electrical_positive", "label": "Electrical Positive", "unit": "mm", "value": "90" },
+                                { "key": "software_negative", "label": "Software Negative", "unit": "mm", "value": "-149" },
+                                { "key": "software_positive", "label": "Software Positive", "unit": "mm", "value": "89" },
+                                { "key": "stroke", "label": "Stroke", "unit": "mm", "value": "238" }
+                            ]
+                        },
+                        {
+                            "key": "static_jitter",
+                            "name": "Static Jitter",
+                            "description": "Simulated static position ripple.",
+                            "parameters": [
+                                { "key": "max_jitter", "label": "Max Jitter", "unit": "um", "value": "0.5" },
+                                { "key": "command_speed", "label": "Command Speed", "unit": "mm/s", "value": "50" }
+                            ]
+                        },
+                        {
+                            "key": "settling_time",
+                            "name": "Settling Time",
+                            "description": "Simulated settling-time response.",
+                            "parameterSets": [
+                                {
+                                    "name": "Set 1",
+                                    "parameters": [
+                                        { "key": "error_window", "label": "Error Window", "unit": "um", "value": "0.2" },
+                                        { "key": "step_distance", "label": "Step Distance", "unit": "mm", "value": "3" },
+                                        { "key": "max_time", "label": "Max Time", "unit": "ms", "value": "150" }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "key": "speed_uniformity",
+                            "name": "Speed Uniformity",
+                            "description": "Simulated constant-speed quality.",
+                            "parameters": [
+                                { "key": "max_variation", "label": "Max Variation", "unit": "%", "value": "1.5" },
+                                { "key": "speed_min", "label": "Speed Min", "unit": "mm/s", "value": "120" },
+                                { "key": "speed_max", "label": "Speed Max", "unit": "mm/s", "value": "360" },
+                                { "key": "speed_count", "label": "Speed Count", "unit": "", "value": "4" }
+                            ]
+                        },
+                        {
+                            "key": "dynamic_capability",
+                            "name": "Max Velocity, Acceleration, Jerk",
+                            "description": "Simulated dynamic capability sweep.",
+                            "parameters": [
+                                { "key": "max_velocity", "label": "Max Velocity", "unit": "mm/s", "value": "800" },
+                                { "key": "max_acceleration", "label": "Max Acceleration", "unit": "mm/s^2", "value": "8000" },
+                                { "key": "max_jerk", "label": "Max Jerk", "unit": "mm/s^3", "value": "80000" }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "axisName": "Z-Sim",
+                    "axisNumber": 2,
+                    "unit": "mm",
+                    "testItems": [
+                        {
+                            "key": "power_off_drop_distance",
+                            "name": "Power-off Drop Distance",
+                            "description": "Simulated vertical-axis drop distance.",
+                            "parameters": [
+                                { "key": "max_drop", "label": "Max Drop", "unit": "um", "value": "2" }
+                            ]
+                        },
+                        {
+                            "key": "limit_window",
+                            "name": "Electrical and Software Limits",
+                            "description": "Simulated travel range validation.",
+                            "parameters": [
+                                { "key": "electrical_negative", "label": "Electrical Negative", "unit": "mm", "value": "-100" },
+                                { "key": "electrical_positive", "label": "Electrical Positive", "unit": "mm", "value": "100" },
+                                { "key": "software_negative", "label": "Software Negative", "unit": "mm", "value": "-99" },
+                                { "key": "software_positive", "label": "Software Positive", "unit": "mm", "value": "99" },
+                                { "key": "stroke", "label": "Stroke", "unit": "mm", "value": "198" }
+                            ]
+                        },
+                        {
+                            "key": "static_jitter",
+                            "name": "Static Jitter",
+                            "description": "Simulated static position ripple.",
+                            "parameters": [
+                                { "key": "max_jitter", "label": "Max Jitter", "unit": "um", "value": "0.5" },
+                                { "key": "command_speed", "label": "Command Speed", "unit": "mm/s", "value": "50" }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

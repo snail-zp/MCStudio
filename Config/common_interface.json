@@ -1,0 +1,82 @@
+{
+    "materialTransfer": {
+        "robotName": "RobotArm-01",
+        "currentMaterialLocation": "LoadPort-01",
+        "stations": [
+            {
+                "stationName": "LoadPort-01",
+                "pickupCommand": "start 23,RobotArm_Pick_LoadPort01",
+                "pickupDoneVariable": "Action_Done",
+                "pickupDoneValue": 211,
+                "placeCommand": "start 23,RobotArm_Place_LoadPort01",
+                "placeDoneVariable": "Action_Done",
+                "placeDoneValue": 212,
+                "color": "#d8ecff"
+            },
+            {
+                "stationName": "Aligner",
+                "pickupCommand": "start 23,RobotArm_Pick_Aligner",
+                "pickupDoneVariable": "Action_Done",
+                "pickupDoneValue": 213,
+                "placeCommand": "start 23,RobotArm_Place_Aligner",
+                "placeDoneVariable": "Action_Done",
+                "placeDoneValue": 214,
+                "color": "#dff5e3"
+            },
+            {
+                "stationName": "Process-A",
+                "pickupCommand": "start 23,RobotArm_Pick_ProcessA",
+                "pickupDoneVariable": "Action_Done",
+                "pickupDoneValue": 215,
+                "placeCommand": "start 23,RobotArm_Place_ProcessA",
+                "placeDoneVariable": "Action_Done",
+                "placeDoneValue": 216,
+                "color": "#fff0d7"
+            },
+            {
+                "stationName": "Process-B",
+                "pickupCommand": "start 23,RobotArm_Pick_ProcessB",
+                "pickupDoneVariable": "Action_Done",
+                "pickupDoneValue": 217,
+                "placeCommand": "start 23,RobotArm_Place_ProcessB",
+                "placeDoneVariable": "Action_Done",
+                "placeDoneValue": 218,
+                "color": "#f1e5ff"
+            }
+        ]
+    },
+    "commands": [
+        {
+            "category": "Fork",
+            "name": "Clamp",
+            "command": "start 23,Fork_Clamp_Host",
+            "doneVariable": "Action_Done",
+            "doneBuffer": -1,
+            "doneValue": 102
+        },
+        {
+            "category": "Fork",
+            "name": "Unclamp",
+            "command": "start 23,Fork_Unclamp_Host",
+            "doneVariable": "Action_Done",
+            "doneBuffer": -1,
+            "doneValue": 101
+        },
+        {
+            "category": "EdgeChuck",
+            "name": "Clamp",
+            "command": "start 23,Edge_Chuck_Clamp_Host",
+            "doneVariable": "Action_Done",
+            "doneBuffer": -1,
+            "doneValue": 108
+        },
+        {
+            "category": "EdgeChuck",
+            "name": "Unclamp",
+            "command": "start 23,Edge_Chuck_Unclamp_Host",
+            "doneVariable": "Action_Done",
+            "doneBuffer": -1,
+            "doneValue": 107
+        }
+    ]
+}

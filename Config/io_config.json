@@ -1,0 +1,22 @@
+{
+    "io_configuration": {
+        "description": "IO configuration extracted from desktop 11.prg",
+        "ios": [
+            {
+                "description": "Y1 handover sensor for RSP200",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 RSP200 Handover",
+                "variable_name": "DI_Y1_RSP200_Handover"
+            },
+            {
+                "description": "RSP200 enable output",
+                "io_type": "DO",
+                "module": "rsp200",
+                "name": "RSP200 Enable",
+                "variable_name": "DO_RSP200_Enable"
+            }
+        ],
+        "version": "2.0"
+    }
+}

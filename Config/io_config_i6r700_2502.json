@@ -1,0 +1,491 @@
+{
+    "io_configuration": {
+        "description": "IO configuration extracted from desktop 11.prg",
+        "ios": [
+            {
+                "description": "X1 handover sensor for XPod",
+                "io_type": "DI",
+                "module": "x1",
+                "name": "X1 XPod Handover",
+                "variable_name": "DI_X1_XPod_Handover"
+            },
+            {
+                "description": "X1 handover sensor for RSP200",
+                "io_type": "DI",
+                "module": "x1",
+                "name": "X1 RSP200 Handover",
+                "variable_name": "DI_X1_RSP200_Handover"
+            },
+            {
+                "description": "X1 handover sensor for clean station",
+                "io_type": "DI",
+                "module": "x1",
+                "name": "X1 Clean Handover",
+                "variable_name": "DI_X1_Clean_Handover"
+            },
+            {
+                "description": "X1 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "x1",
+                "name": "X1 Edge Handover",
+                "variable_name": "DI_X1_Edge_Handover"
+            },
+            {
+                "description": "Y1 handover sensor for XPod",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 XPod Handover",
+                "variable_name": "DI_Y1_XPod_Handover"
+            },
+            {
+                "description": "Y1 handover sensor for RSP200",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 RSP200 Handover",
+                "variable_name": "DI_Y1_RSP200_Handover"
+            },
+            {
+                "description": "Y1 handover sensor for clean station",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 Clean Handover",
+                "variable_name": "DI_Y1_Clean_Handover"
+            },
+            {
+                "description": "Y1 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 Edge Handover",
+                "variable_name": "DI_Y1_Edge_Handover"
+            },
+            {
+                "description": "Y1 inner rotation sensor",
+                "io_type": "DI",
+                "module": "y1",
+                "name": "Y1 Inner Rotation",
+                "variable_name": "DI_Y1_Inner_Rotation"
+            },
+            {
+                "description": "Z1 low position sensor",
+                "io_type": "DI",
+                "module": "z1",
+                "name": "Z1 Low",
+                "variable_name": "DI_Z1_Low"
+            },
+            {
+                "description": "Z1 high position sensor",
+                "io_type": "DI",
+                "module": "z1",
+                "name": "Z1 High",
+                "variable_name": "DI_Z1_High"
+            },
+            {
+                "description": "Z1 edge low position sensor",
+                "io_type": "DI",
+                "module": "z1",
+                "name": "Z1 Edge Low",
+                "variable_name": "DI_Z1_Edge_Low"
+            },
+            {
+                "description": "Z1 edge high position sensor",
+                "io_type": "DI",
+                "module": "z1",
+                "name": "Z1 Edge High",
+                "variable_name": "DI_Z1_Edge_High"
+            },
+            {
+                "description": "T1 handover sensor shared by XPod, RSP200 and clean station",
+                "io_type": "DI",
+                "module": "t1",
+                "name": "T1 XPod RSP200 Clean Handover",
+                "variable_name": "DI_T1_XPod_RSP200_Clean_Handover"
+            },
+            {
+                "description": "T1 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "t1",
+                "name": "T1 Edge Handover",
+                "variable_name": "DI_T1_Edge_Handover"
+            },
+            {
+                "description": "T1 handover sensor for main station",
+                "io_type": "DI",
+                "module": "t1",
+                "name": "T1 Main Handover",
+                "variable_name": "DI_T1_Main_Handover"
+            },
+            {
+                "description": "X2 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "x2",
+                "name": "X2 Edge Handover",
+                "variable_name": "DI_X2_Edge_Handover"
+            },
+            {
+                "description": "Y2 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "y2",
+                "name": "Y2 Edge Handover",
+                "variable_name": "DI_Y2_Edge_Handover"
+            },
+            {
+                "description": "Y2 edge rotation sensor",
+                "io_type": "DI",
+                "module": "y2",
+                "name": "Y2 Edge Rotation",
+                "variable_name": "DI_Y2_Edge_Rotation"
+            },
+            {
+                "description": "Z2 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "z2",
+                "name": "Z2 Edge Handover",
+                "variable_name": "DI_Z2_Edge_Handover"
+            },
+            {
+                "description": "T2 handover sensor for edge station",
+                "io_type": "DI",
+                "module": "t2",
+                "name": "T2 Edge Handover",
+                "variable_name": "DI_T2_Edge_Handover"
+            },
+            {
+                "description": "S axis negative 45 degree sensor",
+                "io_type": "DI",
+                "module": "s",
+                "name": "S Negative 45",
+                "variable_name": "DI_S_Negative_45"
+            },
+            {
+                "description": "S axis zero degree sensor",
+                "io_type": "DI",
+                "module": "s",
+                "name": "S Zero",
+                "variable_name": "DI_S_0"
+            },
+            {
+                "description": "S axis positive 45 degree sensor",
+                "io_type": "DI",
+                "module": "s",
+                "name": "S Positive 45",
+                "variable_name": "DI_S_Positive_45"
+            },
+            {
+                "description": "Y3 handover sensor for clean station",
+                "io_type": "DI",
+                "module": "y3",
+                "name": "Y3 Clean Handover",
+                "variable_name": "DI_Y3_Clean_Handover"
+            },
+            {
+                "description": "Fork barrier sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Barrier",
+                "variable_name": "DI_Fork_Barrier"
+            },
+            {
+                "description": "Fork fixed height sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Fixed Height",
+                "variable_name": "DI_Fork_Fixed_Height"
+            },
+            {
+                "description": "Fork clamp sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Clamp",
+                "variable_name": "DI_Fork_Clamp"
+            },
+            {
+                "description": "Fork crash sensor 1",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Crash 1",
+                "variable_name": "DI_Fork_Crash_1"
+            },
+            {
+                "description": "Fork crash sensor 2",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Crash 2",
+                "variable_name": "DI_Fork_Crash_2"
+            },
+            {
+                "description": "Fork motor clamp feedback",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Motor Clamp",
+                "variable_name": "DI_Fork_Motor_Clamp"
+            },
+            {
+                "description": "Fork motor unclamp feedback",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Motor Unclamp",
+                "variable_name": "DI_Fork_Motor_Unclamp"
+            },
+            {
+                "description": "Fork motor origin sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Motor Origin",
+                "variable_name": "DI_Fork_Motor_Origin"
+            },
+            {
+                "description": "Fork arrive sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Arrive",
+                "variable_name": "DI_Fork_Arrive"
+            },
+            {
+                "description": "Fork origin sensor",
+                "io_type": "DI",
+                "module": "fork",
+                "name": "Fork Origin",
+                "variable_name": "DI_Fork_Origin"
+            },
+            {
+                "description": "Fork motor clamp command",
+                "io_type": "DO",
+                "module": "fork",
+                "name": "Fork Motor Clamp",
+                "variable_name": "DO_Fork_Motor_Clamp"
+            },
+            {
+                "description": "Fork motor unclamp command",
+                "io_type": "DO",
+                "module": "fork",
+                "name": "Fork Motor Unclamp",
+                "variable_name": "DO_Fork_Motor_Unclamp"
+            },
+            {
+                "description": "Fork motor return to origin command",
+                "io_type": "DO",
+                "module": "fork",
+                "name": "Fork Motor To Origin",
+                "variable_name": "DO_Fork_Motor_to_Origin"
+            },
+            {
+                "description": "Main chuck presence sensor 1",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Presence 1",
+                "variable_name": "DI_Main_Chuck_Presence_1"
+            },
+            {
+                "description": "Main chuck presence sensor 2",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Presence 2",
+                "variable_name": "DI_Main_Chuck_Presence_2"
+            },
+            {
+                "description": "Main chuck orientation sensor 1",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Orientation 1",
+                "variable_name": "DI_Main_Chuck_Orientation_1"
+            },
+            {
+                "description": "Main chuck orientation sensor 2",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Orientation 2",
+                "variable_name": "DI_Main_Chuck_Orientation_2"
+            },
+            {
+                "description": "Main chuck clamp state feedback",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Clamp State",
+                "variable_name": "DI_Main_Chuck_Clamp_State"
+            },
+            {
+                "description": "Main chuck unclamp state feedback",
+                "io_type": "DI",
+                "module": "main_chuck",
+                "name": "Main Chuck Unclamp State",
+                "variable_name": "DI_Main_Chuck_Unclamp_State"
+            },
+            {
+                "description": "Main chuck 1-2 clamp command",
+                "io_type": "DO",
+                "module": "main_chuck",
+                "name": "Main Chuck 1-2 Clamp",
+                "variable_name": "DO_Main_Chuck_1_2_Clamp"
+            },
+            {
+                "description": "Main chuck 1-2 unclamp command",
+                "io_type": "DO",
+                "module": "main_chuck",
+                "name": "Main Chuck 1-2 Unclamp",
+                "variable_name": "DO_Main_Chuck_1_2_Unclamp"
+            },
+            {
+                "description": "Edge chuck presence sensor",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Chuck Presence",
+                "variable_name": "DI_Edge_Chuck_Presence"
+            },
+            {
+                "description": "Edge clamp 1 state feedback",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Clamp 1 State",
+                "variable_name": "DI_Edge_Clamp_1_State"
+            },
+            {
+                "description": "Edge clamp 2 state feedback",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Clamp 2 State",
+                "variable_name": "DI_Edge_Clamp_2_State"
+            },
+            {
+                "description": "Edge clamp 3 state feedback",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Clamp 3 State",
+                "variable_name": "DI_Edge_Clamp_3_State"
+            },
+            {
+                "description": "Edge clamp 4 state feedback",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Clamp 4 State",
+                "variable_name": "DI_Edge_Clamp_4_State"
+            },
+            {
+                "description": "Edge chuck position sensor 1",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Chuck Position 1",
+                "variable_name": "DI_Edge_Chuck_Pos_1"
+            },
+            {
+                "description": "Edge chuck position sensor 2",
+                "io_type": "DI",
+                "module": "edge_chuck",
+                "name": "Edge Chuck Position 2",
+                "variable_name": "DI_Edge_Chuck_Pos_2"
+            },
+            {
+                "description": "Edge chuck 1-2 clamp command",
+                "io_type": "DO",
+                "module": "edge_chuck",
+                "name": "Edge Chuck 1-2 Clamp",
+                "variable_name": "DO_Edge_Chuck_1_2_Clamp"
+            },
+            {
+                "description": "Edge chuck 1-2 unclamp command",
+                "io_type": "DO",
+                "module": "edge_chuck",
+                "name": "Edge Chuck 1-2 Unclamp",
+                "variable_name": "DO_Edge_Chuck_1_2_Unclamp"
+            },
+            {
+                "description": "Edge chuck 3-4 clamp command",
+                "io_type": "DO",
+                "module": "edge_chuck",
+                "name": "Edge Chuck 3-4 Clamp",
+                "variable_name": "DO_Edge_Chuck_3_4_Clamp"
+            },
+            {
+                "description": "Edge chuck 3-4 unclamp command",
+                "io_type": "DO",
+                "module": "edge_chuck",
+                "name": "Edge Chuck 3-4 Unclamp",
+                "variable_name": "DO_Edge_Chuck_3_4_Unclamp"
+            },
+            {
+                "description": "XPOD ready signal",
+                "io_type": "DI",
+                "module": "xpod",
+                "name": "XPOD Ready",
+                "variable_name": "DI_XPOD_Ready"
+            },
+            {
+                "description": "XPOD pod in place signal",
+                "io_type": "DI",
+                "module": "xpod",
+                "name": "XPOD Pod In Place",
+                "variable_name": "DI_XPOD_Pod_in_Place"
+            },
+            {
+                "description": "XPOD PLM open signal",
+                "io_type": "DI",
+                "module": "xpod",
+                "name": "XPOD PLM Open",
+                "variable_name": "DI_XPOD_Plm_Open"
+            },
+            {
+                "description": "XPOD PLM busy signal",
+                "io_type": "DI",
+                "module": "xpod",
+                "name": "XPOD PLM Busy",
+                "variable_name": "DI_XPOD_Plm_Busy"
+            },
+            {
+                "description": "XPOD stage busy output",
+                "io_type": "DO",
+                "module": "xpod",
+                "name": "XPOD Stage Busy",
+                "variable_name": "DO_XPOD_Stage_Busy"
+            },
+            {
+                "description": "RSP200 ready signal",
+                "io_type": "DI",
+                "module": "rsp200",
+                "name": "RSP200 Ready",
+                "variable_name": "DI_RSP200_Ready"
+            },
+            {
+                "description": "RSP200 pod in place signal",
+                "io_type": "DI",
+                "module": "rsp200",
+                "name": "RSP200 Pod In Place",
+                "variable_name": "DI_RSP200_Pod_in_Place"
+            },
+            {
+                "description": "RSP200 ready to transfer signal",
+                "io_type": "DI",
+                "module": "rsp200",
+                "name": "RSP200 Ready To Transfer",
+                "variable_name": "DI_RSP200_Ready_to_Tansfer"
+            },
+            {
+                "description": "RSP200 error signal",
+                "io_type": "DI",
+                "module": "rsp200",
+                "name": "RSP200 Error",
+                "variable_name": "DI_RSP200_Error"
+            },
+            {
+                "description": "RSP200 enable output",
+                "io_type": "DO",
+                "module": "rsp200",
+                "name": "RSP200 Enable",
+                "variable_name": "DO_RSP200_Enable"
+            },
+            {
+                "description": "Main line air pressure status",
+                "io_type": "DI",
+                "module": "safety",
+                "name": "Air Pressure ML",
+                "variable_name": "Air_Pressure_ML"
+            },
+            {
+                "description": "Reserve line air pressure status",
+                "io_type": "DI",
+                "module": "safety",
+                "name": "Air Pressure RS",
+                "variable_name": "Air_Pressure_RS"
+            }
+        ],
+        "version": "2.0"
+    }
+}

@@ -1,0 +1,222 @@
+{
+    "workstationCalibrations": [
+        {
+            "EdgeChuck": {
+                "axes": [
+                    {
+                        "axisNumber": 5,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "name": "X2",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 6,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "name": "Y2",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 7,
+                        "defaultSpeed": 20,
+                        "defaultStep": 0.2,
+                        "name": "Z2",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 8,
+                        "defaultSpeed": 15,
+                        "defaultStep": 1,
+                        "name": "T2",
+                        "unit": "deg"
+                    }
+                ],
+                "description": "Calibration axes for chuck and linear platform.",
+                "name": "EdgeChuck",
+                "operations": {
+                    "grip": {
+                        "command": "start 23，Edge_Chuck_Clamp_Host",
+                        "doneValue": 108,
+                        "doneVariable": "Action_Done"
+                    },
+                    "release": {
+                        "command": "start 23，Edge_Chuck_Unclamp_Host",
+                        "doneValue": 107,
+                        "doneVariable": "Action_Done"
+                    }
+                }
+            },
+            "Fork": {
+                "axes": [
+                    {
+                        "axisNumber": 1,
+                        "defaultSpeed": 50,
+                        "defaultStep": 1,
+                        "name": "X1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 2,
+                        "defaultSpeed": 50,
+                        "defaultStep": 1,
+                        "name": "Y1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 3,
+                        "defaultSpeed": 30,
+                        "defaultStep": 0.5,
+                        "name": "Z1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 4,
+                        "defaultSpeed": 20,
+                        "defaultStep": 1,
+                        "name": "T1",
+                        "unit": "deg"
+                    }
+                ],
+                "description": "Calibration axes for the robot arm.",
+                "name": "Fork",
+                "operations": {
+                    "grip": {
+                        "command": "start 23，Fork_Clamp_Host",
+                        "doneValue": 102,
+                        "doneVariable": "Action_Done"
+                    },
+                    "release": {
+                        "command": "start 23，Fork_Unclamp_Host",
+                        "doneValue": 101,
+                        "doneVariable": "Action_Done"
+                    }
+                }
+            },
+            "arrivalSensors": [
+                "x2_in_position",
+                "y2_in_position",
+                "z2_in_position",
+                "t2_in_position",
+                "z1_in_position",
+                "y1_in_position",
+                "x1_in_position",
+                "z1_return_in_position"
+            ],
+            "calibrationName": "Edge Station",
+            "description": "Calibration layout for Edge Station.",
+            "jogSpeedHigh": 20,
+            "jogSpeedLow": 5,
+            "moveSequence": [
+                "X2",
+                "Y2",
+                "Z2",
+                "T2",
+                "Z1",
+                "Y1",
+                "X1",
+                "Z1"
+            ],
+            "startPositionCommand": "to_Workstation_Index = 1;start 23,Rotary_Workstation_to_Close",
+            "startPositionDoneValue": 1,
+            "startPositionDoneVariable": "Action_Done",
+            "targetPositions": [
+                230.26,
+                216.147,
+                0,
+                90,
+                26,
+                -2,
+                -359.5,
+                1
+            ],
+            "unifiedStep": 0.1
+        },
+        {
+            "Fork": {
+                "axes": [
+                    {
+                        "axisNumber": 1,
+                        "defaultSpeed": 45,
+                        "defaultStep": 1,
+                        "name": "X1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 2,
+                        "defaultSpeed": 45,
+                        "defaultStep": 1,
+                        "name": "Y1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 3,
+                        "defaultSpeed": 25,
+                        "defaultStep": 0.5,
+                        "name": "Z1",
+                        "unit": "mm"
+                    },
+                    {
+                        "axisNumber": 4,
+                        "defaultSpeed": 18,
+                        "defaultStep": 1,
+                        "name": "T1",
+                        "unit": "deg"
+                    }
+                ],
+                "description": "Calibration axes for the robot arm.",
+                "name": "Fork",
+                "operations": {
+                    "grip": {
+                        "command": "start 23，Fork_Clamp_Host",
+                        "doneValue": 102,
+                        "doneVariable": "Action_Done"
+                    },
+                    "release": {
+                        "command": "start 23，Fork_Unclamp_Host",
+                        "doneValue": 101,
+                        "doneVariable": "Action_Done"
+                    }
+                }
+            },
+            "MainChuck": {
+                "axes": [
+                ],
+                "description": "",
+                "name": "MainChuck",
+                "operations": {
+                    "grip": {
+                        "command": "start 23，Main_Chuck_Clamp_Host",
+                        "doneValue": 104,
+                        "doneVariable": "Action_Done"
+                    },
+                    "release": {
+                        "command": "start 23，Main_Chuck_Unclamp_Host",
+                        "doneValue": 103,
+                        "doneVariable": "Action_Done"
+                    }
+                }
+            },
+            "arrivalSensors": [
+                "z1_in_position",
+                "t1_in_position"
+            ],
+            "calibrationName": "Main Station",
+            "description": "Calibration layout for station B.",
+            "jogSpeedHigh": 20,
+            "jogSpeedLow": 5,
+            "moveSequence": [
+                "Z1",
+                "T1"
+            ],
+            "startPositionCommand": "to_Workstation_Index = 0;start 23,Rotary_Workstation_to_Close",
+            "startPositionDoneValue": 1,
+            "startPositionDoneVariable": "Action_Done",
+            "targetPositions": [
+                -17.967,
+                0.05
+            ],
+            "unifiedStep": 2
+        }
+    ]
+}

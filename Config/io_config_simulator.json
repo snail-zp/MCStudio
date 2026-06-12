@@ -1,0 +1,124 @@
+{
+    "io_configuration": {
+        "description": "Simulator IO configuration for MCStudio demo buffer 23",
+        "version": "2.0",
+        "ios": [
+            {
+                "description": "Load port material-present sensor",
+                "io_type": "DI",
+                "module": "load_port",
+                "name": "LoadPort Material Present",
+                "variable_name": "DI_LoadPort_MaterialPresent"
+            },
+            {
+                "description": "Aligner ready sensor",
+                "io_type": "DI",
+                "module": "aligner",
+                "name": "Aligner Ready",
+                "variable_name": "DI_Aligner_Ready"
+            },
+            {
+                "description": "Process-A ready sensor",
+                "io_type": "DI",
+                "module": "process_a",
+                "name": "Process-A Ready",
+                "variable_name": "DI_ProcessA_Ready"
+            },
+            {
+                "description": "Process-B ready sensor",
+                "io_type": "DI",
+                "module": "process_b",
+                "name": "Process-B Ready",
+                "variable_name": "DI_ProcessB_Ready"
+            },
+            {
+                "description": "Unload port ready sensor",
+                "io_type": "DI",
+                "module": "unload_port",
+                "name": "UnloadPort Ready",
+                "variable_name": "DI_UnloadPort_Ready"
+            },
+            {
+                "description": "Robot home sensor",
+                "io_type": "DI",
+                "module": "robot",
+                "name": "Robot Home",
+                "variable_name": "DI_Robot_Home"
+            },
+            {
+                "description": "Robot grip-closed feedback",
+                "io_type": "DI",
+                "module": "robot",
+                "name": "Robot Grip Closed",
+                "variable_name": "DI_Robot_Grip_Closed"
+            },
+            {
+                "description": "Robot vacuum output",
+                "io_type": "DO",
+                "module": "robot",
+                "name": "Robot Vacuum",
+                "variable_name": "DO_Robot_Vacuum"
+            },
+            {
+                "description": "Robot blower output",
+                "io_type": "DO",
+                "module": "robot",
+                "name": "Robot Blower",
+                "variable_name": "DO_Robot_Blower"
+            },
+            {
+                "description": "Load port clamp output",
+                "io_type": "DO",
+                "module": "load_port",
+                "name": "LoadPort Clamp",
+                "variable_name": "DO_LoadPort_Clamp"
+            },
+            {
+                "description": "Aligner clamp output",
+                "io_type": "DO",
+                "module": "aligner",
+                "name": "Aligner Clamp",
+                "variable_name": "DO_Aligner_Clamp"
+            },
+            {
+                "description": "Process-A clamp output",
+                "io_type": "DO",
+                "module": "process_a",
+                "name": "Process-A Clamp",
+                "variable_name": "DO_ProcessA_Clamp"
+            },
+            {
+                "description": "Process-B clamp output",
+                "io_type": "DO",
+                "module": "process_b",
+                "name": "Process-B Clamp",
+                "variable_name": "DO_ProcessB_Clamp"
+            },
+            {
+                "description": "Unload port clamp output",
+                "io_type": "DO",
+                "module": "unload_port",
+                "name": "UnloadPort Clamp",
+                "variable_name": "DO_UnloadPort_Clamp"
+            },
+            {
+                "description": "Robot vacuum level feedback",
+                "io_type": "AI",
+                "module": "robot",
+                "name": "Vacuum Level",
+                "variable_name": "AI_Vacuum_Level",
+                "unit": "kPa",
+                "range": "0-100"
+            },
+            {
+                "description": "Robot speed override command",
+                "io_type": "AO",
+                "module": "robot",
+                "name": "Robot Speed Override",
+                "variable_name": "AO_Robot_Speed_Override",
+                "unit": "%",
+                "range": "0-150"
+            }
+        ]
+    }
+}

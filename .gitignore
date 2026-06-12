@@ -1,0 +1,29 @@
+# Build outputs
+build/
+cmake-build-*/
+out/
+
+# Logs and generated reports
+Logs/
+*.log
+axis_performance_report.html
+
+# IDE and local tool state
+.vscode/
+.vs/
+*.user
+*.suo
+
+# Export tool local state and generated hardware snapshots
+Exports/.git/
+Exports/.vexp/
+Exports/.vscode/
+Exports/hardware_*/
+
+# Temporary files
+*.tmp
+*.bak
+*.old
+*.swp
+Thumbs.db
+desktop.ini

@@ -1,0 +1,215 @@
+{
+    "workstationCalibrations": [
+        {
+            "calibrationName": "Load & Align Station",
+            "description": "Simulator workstation for loading and alignment motions.",
+            "startPositionCommand": "to_Workstation_Index = 0;start 23,Rotary_Workstation_to_Close",
+            "startPositionDoneVariable": "Action_Done",
+            "startPositionDoneBuffer": -1,
+            "startPositionDoneValue": 1,
+            "unifiedStep": 0.5,
+            "jogSpeedLow": 5,
+            "jogSpeedHigh": 20,
+            "moveSequence": [
+                "X1",
+                "Y1",
+                "Z1",
+                "T1"
+            ],
+            "targetPositions": [
+                120,
+                80,
+                12,
+                0
+            ],
+            "arrivalSensors": [
+                "x1_in_position",
+                "y1_in_position",
+                "z1_in_position",
+                "t1_in_position"
+            ],
+            "Fork": {
+                "name": "Fork",
+                "description": "Robot arm axes in simulator.",
+                "axes": [
+                    {
+                        "name": "X1",
+                        "axisNumber": 1,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "Y1",
+                        "axisNumber": 2,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "Z1",
+                        "axisNumber": 3,
+                        "defaultSpeed": 20,
+                        "defaultStep": 0.5,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "T1",
+                        "axisNumber": 4,
+                        "defaultSpeed": 15,
+                        "defaultStep": 1,
+                        "unit": "deg"
+                    }
+                ],
+                "operations": {
+                    "grip": {
+                        "command": "start 23,Fork_Clamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 102
+                    },
+                    "release": {
+                        "command": "start 23,Fork_Unclamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 101
+                    }
+                }
+            },
+            "Aligner": {
+                "name": "Aligner",
+                "description": "Alignment clamp module in simulator.",
+                "axes": [],
+                "operations": {
+                    "grip": {
+                        "command": "start 23,Aligner_Clamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 106
+                    },
+                    "release": {
+                        "command": "start 23,Aligner_Unclamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 105
+                    }
+                }
+            }
+        },
+        {
+            "calibrationName": "Process Station",
+            "description": "Simulator workstation for process-side chuck motions.",
+            "startPositionCommand": "to_Workstation_Index = 1;start 23,Rotary_Workstation_to_Close",
+            "startPositionDoneVariable": "Action_Done",
+            "startPositionDoneBuffer": -1,
+            "startPositionDoneValue": 1,
+            "unifiedStep": 0.2,
+            "jogSpeedLow": 5,
+            "jogSpeedHigh": 20,
+            "moveSequence": [
+                "X2",
+                "Y2",
+                "Z2",
+                "T2"
+            ],
+            "targetPositions": [
+                230,
+                180,
+                8,
+                90
+            ],
+            "arrivalSensors": [
+                "x2_in_position",
+                "y2_in_position",
+                "z2_in_position",
+                "t2_in_position"
+            ],
+            "Fork": {
+                "name": "Fork",
+                "description": "Robot arm axes in simulator.",
+                "axes": [
+                    {
+                        "name": "X2",
+                        "axisNumber": 5,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "Y2",
+                        "axisNumber": 6,
+                        "defaultSpeed": 40,
+                        "defaultStep": 1,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "Z2",
+                        "axisNumber": 7,
+                        "defaultSpeed": 20,
+                        "defaultStep": 0.2,
+                        "unit": "mm"
+                    },
+                    {
+                        "name": "T2",
+                        "axisNumber": 8,
+                        "defaultSpeed": 15,
+                        "defaultStep": 1,
+                        "unit": "deg"
+                    }
+                ],
+                "operations": {
+                    "grip": {
+                        "command": "start 23,Fork_Clamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 102
+                    },
+                    "release": {
+                        "command": "start 23,Fork_Unclamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 101
+                    }
+                }
+            },
+            "EdgeChuck": {
+                "name": "EdgeChuck",
+                "description": "Process-side chuck clamp module in simulator.",
+                "axes": [],
+                "operations": {
+                    "grip": {
+                        "command": "start 23,Edge_Chuck_Clamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 108
+                    },
+                    "release": {
+                        "command": "start 23,Edge_Chuck_Unclamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 107
+                    }
+                }
+            },
+            "MainChuck": {
+                "name": "MainChuck",
+                "description": "Load-side chuck clamp module in simulator.",
+                "axes": [],
+                "operations": {
+                    "grip": {
+                        "command": "start 23,Main_Chuck_Clamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 104
+                    },
+                    "release": {
+                        "command": "start 23,Main_Chuck_Unclamp_Host",
+                        "doneVariable": "Action_Done",
+                        "doneBuffer": -1,
+                        "doneValue": 103
+                    }
+                }
+            }
+        }
+    ]
+}

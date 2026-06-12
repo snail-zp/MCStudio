@@ -1,0 +1,256 @@
+{
+    "axisPerformanceProfiles": [
+        {
+            "axes": [
+                {
+                    "axisName": "X1",
+                    "axisNumber": 0,
+                    "testItems": [
+                        {
+                            "description": "Check configured electrical and software travel windows against the contract range.",
+                            "key": "limit_window",
+                            "name": "Electrical and Software Limits",
+                            "parameters": [
+                                {
+                                    "key": "electrical_negative",
+                                    "label": "Electrical Negative",
+                                    "unit": "mm",
+                                    "value": "-150"
+                                },
+                                {
+                                    "key": "electrical_positive",
+                                    "label": "Electrical Positive",
+                                    "unit": "mm",
+                                    "value": "89"
+                                },
+                                {
+                                    "key": "software_negative",
+                                    "label": "Software Negative",
+                                    "unit": "mm",
+                                    "value": "-149"
+                                },
+                                {
+                                    "key": "software_positive",
+                                    "label": "Software Positive",
+                                    "unit": "mm",
+                                    "value": "88"
+                                },
+                                {
+                                    "key": "stroke",
+                                    "label": "Stroke",
+                                    "unit": "mm",
+                                    "value": "237"
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Static position ripple under stable hold condition.",
+                            "key": "static_jitter",
+                            "name": "Static Jitter",
+                            "parameters": [
+                                {
+                                    "key": "max_jitter",
+                                    "label": "Max Jitter",
+                                    "unit": "um",
+                                    "value": "0.3"
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Position should settle within the target error band after the specified step move.",
+                            "key": "settling_time",
+                            "name": "Settling Time",
+                            "parameterSets": [
+                                {
+                                    "name": "Set 1",
+                                    "parameters": [
+                                        {
+                                            "key": "error_window",
+                                            "label": "Error Window",
+                                            "notes": "Plus/minus window",
+                                            "unit": "um",
+                                            "value": "0.15"
+                                        },
+                                        {
+                                            "key": "step_distance",
+                                            "label": "Step Distance",
+                                            "unit": "mm",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "max_time",
+                                            "label": "Max Time",
+                                            "unit": "ms",
+                                            "value": "150"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Speed fluctuation in the target speed section, based on 3-sigma statistics.",
+                            "key": "speed_uniformity",
+                            "name": "Speed Uniformity",
+                            "parameters": [
+                                {
+                                    "key": "max_variation",
+                                    "label": "Max Variation",
+                                    "unit": "%",
+                                    "value": "1"
+                                },
+                                {
+                                    "key": "speed_min",
+                                    "label": "Speed Min",
+                                    "unit": "mm/s",
+                                    "value": "200"
+                                },
+                                {
+                                    "key": "speed_max",
+                                    "label": "Speed Max",
+                                    "unit": "mm/s",
+                                    "value": "400"
+                                },
+                                {
+                                    "key": "servo_frequency",
+                                    "label": "Servo Frequency",
+                                    "notes": "3-sigma statistic",
+                                    "unit": "Hz",
+                                    "value": "4000"
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Maximum dynamic capability values required by the contract.",
+                            "key": "dynamic_capability",
+                            "name": "Max Velocity, Acceleration, Jerk",
+                            "parameters": [
+                                {
+                                    "key": "max_velocity",
+                                    "label": "Max Velocity",
+                                    "unit": "mm/s",
+                                    "value": "800"
+                                },
+                                {
+                                    "key": "max_acceleration",
+                                    "label": "Max Acceleration",
+                                    "unit": "mm/s^2",
+                                    "value": "8000"
+                                },
+                                {
+                                    "key": "max_jerk",
+                                    "label": "Max Jerk",
+                                    "unit": "mm/s^3",
+                                    "value": "80000"
+                                }
+                            ]
+                        }
+                    ],
+                    "unit": "mm"
+                },
+                {
+                    "axisName": "Z1",
+                    "axisNumber": 2,
+                    "testItems": [
+                        {
+                            "description": "Distance the vertical axis drops after power-off or brake release event.",
+                            "key": "power_off_drop_distance",
+                            "name": "Power-off Drop Distance",
+                            "parameters": [
+                                {
+                                    "key": "max_drop",
+                                    "label": "Max Drop",
+                                    "unit": "um",
+                                    "value": "0.1"
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Check configured electrical and software travel windows against the contract range.",
+                            "key": "limit_window",
+                            "name": "Electrical and Software Limits",
+                            "parameters": [
+                                {
+                                    "key": "electrical_negative",
+                                    "label": "Electrical Negative",
+                                    "unit": "mm",
+                                    "value": "-100"
+                                },
+                                {
+                                    "key": "electrical_positive",
+                                    "label": "Electrical Positive",
+                                    "unit": "mm",
+                                    "value": "100"
+                                },
+                                {
+                                    "key": "software_negative",
+                                    "label": "Software Negative",
+                                    "unit": "mm",
+                                    "value": "-99"
+                                },
+                                {
+                                    "key": "software_positive",
+                                    "label": "Software Positive",
+                                    "unit": "mm",
+                                    "value": "99"
+                                },
+                                {
+                                    "key": "stroke",
+                                    "label": "Stroke",
+                                    "unit": "mm",
+                                    "value": "198"
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Position should settle within the target error band after the specified step move.",
+                            "key": "settling_time",
+                            "name": "Settling Time",
+                            "parameterSets": [
+                                {
+                                    "name": "Set 1",
+                                    "parameters": [
+                                        {
+                                            "key": "error_window",
+                                            "label": "Error Window",
+                                            "notes": "Plus/minus window",
+                                            "unit": "um",
+                                            "value": "0.15"
+                                        },
+                                        {
+                                            "key": "step_distance",
+                                            "label": "Step Distance",
+                                            "unit": "mm",
+                                            "value": "3"
+                                        },
+                                        {
+                                            "key": "max_time",
+                                            "label": "Max Time",
+                                            "unit": "ms",
+                                            "value": "150"
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "description": "Static position ripple under stable hold condition.",
+                            "key": "static_jitter",
+                            "name": "Static Jitter",
+                            "parameters": [
+                                {
+                                    "key": "max_jitter",
+                                    "label": "Max Jitter",
+                                    "unit": "um",
+                                    "value": "0.3"
+                                }
+                            ]
+                        }
+                    ],
+                    "unit": "mm"
+                }
+            ],
+            "description": "Axis performance test items generated from the technical agreement.",
+            "profileName": "Standard Motion Protocol"
+        }
+    ]
+}

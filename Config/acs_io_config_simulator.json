@@ -1,0 +1,43 @@
+{
+    "controller_type": "ACS",
+    "connection_defaults": {
+        "connection_type": "Simulator",
+        "ip": "",
+        "port": 701,
+        "poll_interval_ms": 100
+    },
+    "io_points": [
+        {
+            "id": "di_robot_home",
+            "name": "Robot Home",
+            "direction": "input",
+            "port": 0,
+            "bit": 0,
+            "description": "Mapped to DI_Robot_Home in simulator buffer"
+        },
+        {
+            "id": "di_grip_closed",
+            "name": "Grip Closed",
+            "direction": "input",
+            "port": 0,
+            "bit": 1,
+            "description": "Mapped to DI_Robot_Grip_Closed in simulator buffer"
+        },
+        {
+            "id": "do_vacuum",
+            "name": "Robot Vacuum",
+            "direction": "output",
+            "port": 1,
+            "bit": 0,
+            "description": "Mapped to DO_Robot_Vacuum in simulator buffer"
+        },
+        {
+            "id": "do_aligner_clamp",
+            "name": "Aligner Clamp",
+            "direction": "output",
+            "port": 1,
+            "bit": 1,
+            "description": "Mapped to DO_Aligner_Clamp in simulator buffer"
+        }
+    ]
+}
