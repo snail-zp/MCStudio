@@ -52,6 +52,7 @@ public:
                            QVector<double>* values,
                            QString* errorMessage) const;
     bool executeCommand(const QString& commandText, QString* response, QString* errorMessage);
+    bool isProgramBufferRunning(int bufferNumber, bool* running, QString* errorMessage) const;
     bool moveAxisRelative(int axisNumber, double distance, double velocity, QString* errorMessage);
     bool moveAxisToPosition(int axisNumber, double targetPosition, double velocity, QString* errorMessage);
     bool haltAxis(int axisNumber, QString* errorMessage);

@@ -42,6 +42,7 @@ public:
                                    QVector<double>* values,
                                    QString* errorMessage) const = 0;
     virtual bool executeCommand(const QString& commandText, QString* response, QString* errorMessage) = 0;
+    virtual bool isProgramBufferRunning(int bufferNumber, bool* running, QString* errorMessage) const = 0;
     virtual bool moveAxisRelative(int axisNumber, double distance, double velocity, QString* errorMessage) = 0;
     virtual bool moveAxisToPosition(int axisNumber, double targetPosition, double velocity, QString* errorMessage) = 0;
     virtual bool haltAxis(int axisNumber, QString* errorMessage) = 0;

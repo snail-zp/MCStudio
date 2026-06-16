@@ -44,6 +44,7 @@ public:
                            QVector<double>* values,
                            QString* errorMessage) const override;
     bool executeCommand(const QString& commandText, QString* response, QString* errorMessage) override;
+    bool isProgramBufferRunning(int bufferNumber, bool* running, QString* errorMessage) const override;
     bool moveAxisRelative(int axisNumber, double distance, double velocity, QString* errorMessage) override;
     bool moveAxisToPosition(int axisNumber, double targetPosition, double velocity, QString* errorMessage) override;
     bool haltAxis(int axisNumber, QString* errorMessage) override;

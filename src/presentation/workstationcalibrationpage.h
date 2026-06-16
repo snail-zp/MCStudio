@@ -83,6 +83,7 @@ private:
     void saveSelectedMoveSequencePosition(const QString& workstationName);
     void saveMoveSequencePositionsWithConfirmation(const QString& workstationName);
     void captureStartAxisPositions(const WorkstationCalibration& calibration);
+    void refreshMoveSequenceStepButtons(const QString& workstationName);
     bool canExecuteMoveSequenceStep(const QString& workstationName, int targetIndex) const;
     bool resolveReverseMoveTarget(const QString& workstationName,
                                   int currentIndex,

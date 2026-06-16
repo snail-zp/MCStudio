@@ -314,6 +314,33 @@ bool AcsController::executeCommand(const QString& commandText, QString* response
     return true;
 }
 
+bool AcsController::isProgramBufferRunning(int bufferNumber, bool* running, QString* errorMessage) const
+{
+    if (!running) {
+        if (errorMessage) {
+            *errorMessage = QStringLiteral("Program buffer running output is null");
+        }
+        return false;
+    }
+    if (!isConnected()) {
+        if (errorMessage) {
+            *errorMessage = QStringLiteral("ACS controller is not connected");
+        }
+        return false;
+    }
+
+    int state = 0;
+    if (!acsc_GetProgramState(m_handle, bufferNumber, &state, ACSC_SYNCHRONOUS)) {
+        if (errorMessage) {
+            *errorMessage = buildErrorMessage(QStringLiteral("Failed to read program state for buffer %1").arg(bufferNumber));
+        }
+        return false;
+    }
+
+    *running = (state & ACSC_PST_RUN) != 0;
+    return true;
+}
+
 bool AcsController::moveAxisRelative(int axisNumber, double distance, double velocity, QString* errorMessage)
 {
     if (!isConnected()) {

@@ -1312,6 +1312,12 @@ void WorkstationCalibrationPage::setCalibrationInteractionEnabled(bool enabled)
     if (m_workstationCombo) {
         m_workstationCombo->setEnabled(enabled);
     }
+    for (auto it = m_startPositionButtons.cbegin(); it != m_startPositionButtons.cend(); ++it) {
+        refreshMoveSequenceStepButtons(it.key());
+    }
+    if (!m_selectedWorkstationName.isEmpty()) {
+        refreshMoveSequenceStepButtons(m_selectedWorkstationName);
+    }
 }
 
 bool WorkstationCalibrationPage::collectCalibrationsFromEditor(QVector<WorkstationCalibration>* calibrations, QString* errorMessage) const
@@ -1922,11 +1928,22 @@ bool WorkstationCalibrationPage::moveAxisToTarget(const QString& workstationName
         ? m_workflowService.jogSpeedFor(*calibration, *axis, useHighSpeed)
         : axis->defaultSpeed;
     setCalibrationInteractionEnabled(false);
+    showStatusMessage(trText(m_languageCode,
+                             QStringLiteral("Moving axis %1 to %2 %3...")
+                                 .arg(axis->name)
+                                 .arg(targetPosition, 0, 'f', 3)
+                                 .arg(axis->unit),
+                             QStringLiteral("正在移动轴 %1 到 %2 %3...")
+                                 .arg(axis->name)
+                                 .arg(targetPosition, 0, 'f', 3)
+                                 .arg(axis->unit)),
+                      false);
+    QCoreApplication::processEvents();
     if (!m_executionService.moveAxisToPositionAndWait(axis->axisNumber,
                                                       targetPosition,
                                                       speedValue,
                                                       0.02,
-                                                      12000,
+                                                      120000,
                                                       &errorMessage)) {
         setCalibrationInteractionEnabled(true);
         showStatusMessage(errorMessage, true);
@@ -1968,12 +1985,52 @@ bool WorkstationCalibrationPage::moveToStartPosition(const QString& workstationN
     }
 
     QString errorMessage;
+    const int currentMoveIndex = m_selectedMoveStepByWorkstation.value(workstationName, -1);
+    if (currentMoveIndex >= 0 && m_startAxisPositionsByWorkstation.contains(workstationName)) {
+        for (int stepIndex = currentMoveIndex; stepIndex >= 0; --stepIndex) {
+            QString reverseAxisName;
+            double reverseTarget = 0.0;
+            if (!resolveReverseMoveTarget(workstationName, stepIndex, &reverseAxisName, &reverseTarget, &errorMessage)) {
+                showStatusMessage(errorMessage, true);
+                showFailureDialog(textForKey(QStringLiteral("start_position")), errorMessage);
+                return false;
+            }
+
+            if (!moveAxisToTarget(workstationName, reverseAxisName, reverseTarget)) {
+                return false;
+            }
+        }
+
+        m_selectedMoveStepByWorkstation.insert(workstationName, -1);
+        m_reachedMoveStepsByWorkstation.remove(workstationName);
+        addUniqueString(m_startPositionReachedWorkstations, workstationName);
+        refreshAxisPositions();
+        refreshMoveSequenceStepButtons(workstationName);
+        showStatusMessage(trText(m_languageCode,
+                                 QStringLiteral("Moved back to start position"),
+                                 QStringLiteral("\u5df2\u9000\u56de\u8d77\u59cb\u4f4d")),
+                          false);
+        return true;
+    }
+
+    if (currentMoveIndex >= 0 && !m_startAxisPositionsByWorkstation.contains(workstationName)) {
+        showStatusMessage(trText(m_languageCode,
+                                 QStringLiteral("Start position was not captured. Executing configured start-position command."),
+                                 QStringLiteral("\u672a\u6355\u83b7\u8d77\u59cb\u5750\u6807\uff0c\u5c06\u6267\u884c\u914d\u7f6e\u7684\u8d77\u59cb\u4f4d\u547d\u4ee4\u3002")),
+                          false);
+    }
+
     WorkstationCalibrationWorkflowService::StartPositionRequest request;
     if (!m_workflowService.prepareStartPositionRequest(m_calibrations, workstationName, &request, &errorMessage)) {
         showStatusMessage(trText(m_languageCode, errorMessage, errorMessage), true);
         return false;
     }
     setCalibrationInteractionEnabled(false);
+    showStatusMessage(trText(m_languageCode,
+                             QStringLiteral("Moving to start position..."),
+                             QStringLiteral("正在移动到起始位...")),
+                      false);
+    QCoreApplication::processEvents();
     if (!m_executionService.executeCommandWithCompletion(request.command,
                                                          request.doneVariable,
                                                          request.doneBuffer,
@@ -2010,6 +2067,76 @@ void WorkstationCalibrationPage::captureStartAxisPositions(const WorkstationCali
     QString errorMessage;
     m_workflowService.captureAxisPositions(calibration, &positions, &errorMessage);
     m_startAxisPositionsByWorkstation.insert(calibration.calibrationName, positions);
+}
+
+void WorkstationCalibrationPage::refreshMoveSequenceStepButtons(const QString& workstationName)
+{
+    const WorkstationCalibration* calibration = m_workflowService.findCalibration(m_calibrations, workstationName);
+    if (!calibration) {
+        return;
+    }
+
+    const int currentIndex = m_selectedMoveStepByWorkstation.value(workstationName, -1);
+    const QSet<int> reachedSteps = m_reachedMoveStepsByWorkstation.value(workstationName);
+    const bool startReached = containsString(m_startPositionReachedWorkstations, workstationName);
+
+    if (QPushButton* startButton = m_startPositionButtons.value(workstationName, nullptr)) {
+        const bool canReturnFromMoveSequence = startReached && currentIndex >= 0;
+        startButton->setEnabled(m_calibrationInteractionEnabled);
+        startButton->setStyleSheet(!m_calibrationInteractionEnabled
+            ? QStringLiteral("QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;font-size:12px;font-weight:700;color:#7b8794;padding:6px;}QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}")
+            : (currentIndex < 0 && startReached)
+            ? QStringLiteral("QPushButton{background:#dbe9f5;border:2px solid #2188d9;border-radius:10px;font-size:12px;font-weight:700;color:#123f66;padding:5px;}")
+            : canReturnFromMoveSequence
+            ? QStringLiteral("QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;font-size:12px;font-weight:700;color:#155c2d;padding:5px;}QPushButton:hover{background:#e3f7e8;}QPushButton:pressed{background:#d2efdc;}")
+            : startReached
+            ? QStringLiteral("QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;font-size:12px;font-weight:700;color:#7b8794;padding:6px;}")
+            : QStringLiteral("QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;font-size:12px;font-weight:700;color:#155c2d;padding:5px;}QPushButton:hover{background:#e3f7e8;}QPushButton:pressed{background:#d2efdc;}QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;color:#7b8794;}"));
+    }
+
+    for (int index = 0; index < calibration->moveSequence.size(); ++index) {
+        QPushButton* stepButton = m_moveStepButtons.value(QStringLiteral("%1|%2").arg(workstationName).arg(index), nullptr);
+        if (!stepButton) {
+            continue;
+        }
+
+        const QString sensorVariable = stepButton->property("arrivalSensorVariable").toString().trimmed();
+        const bool isCurrent = index == currentIndex;
+        const bool isReached = reachedSteps.contains(index);
+        bool arrivalActive = false;
+        QString arrivalError;
+        if (!sensorVariable.isEmpty() && m_controllerService.isConnected()) {
+            int sensorValue = 0;
+            if (m_controllerService.readIntegerVariable(sensorVariable, &sensorValue, &arrivalError)) {
+                arrivalActive = sensorValue != 0;
+            }
+        }
+
+        stepButton->setProperty("isCurrentMoveStep", isCurrent);
+        stepButton->setProperty("isReachedMoveStep", isReached);
+        stepButton->setProperty("isArrivalActive", arrivalActive);
+        const bool canClick = (startReached && currentIndex < 0 && index == 0)
+                              || (startReached && currentIndex >= 0 && (index == currentIndex - 1 || index == currentIndex + 1));
+        stepButton->setEnabled(m_calibrationInteractionEnabled && canClick);
+        stepButton->setStyleSheet(!m_calibrationInteractionEnabled
+            ? QStringLiteral("QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;font-size:12px;font-weight:700;color:#7b8794;padding:6px;}QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}")
+            : isCurrent && arrivalActive
+            ? QStringLiteral("QPushButton{background:#d8effb;border:2px solid #2a8cc7;border-radius:10px;font-size:12px;font-weight:700;color:#0f4d74;padding:5px;}")
+            : isCurrent
+            ? QStringLiteral("QPushButton{background:#dbe9f5;border:2px solid #2188d9;border-radius:10px;font-size:12px;font-weight:700;color:#123f66;padding:5px;}QPushButton:disabled{background:#dbe9f5;border:2px solid #2188d9;color:#123f66;}")
+            : canClick && arrivalActive
+            ? QStringLiteral("QPushButton{background:#ecf8ee;border:2px solid #4aaf63;border-radius:10px;font-size:12px;font-weight:700;color:#21613a;padding:5px;}")
+            : canClick
+            ? QStringLiteral("QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;font-size:12px;font-weight:700;color:#155c2d;padding:5px;}QPushButton:hover{background:#e3f7e8;}QPushButton:pressed{background:#d2efdc;}")
+            : QStringLiteral("QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;font-size:12px;font-weight:700;color:#7b8794;padding:6px;}QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}"));
+
+        if (!sensorVariable.isEmpty()) {
+            stepButton->setToolTip(trText(
+                m_languageCode,
+                QStringLiteral("Arrival sensor: %1").arg(sensorVariable),
+                QStringLiteral("\u5230\u4f4d\u4f20\u611f\u5668: %1").arg(sensorVariable)));
+        }
+    }
 }
 
 bool WorkstationCalibrationPage::canExecuteMoveSequenceStep(const QString& workstationName, int targetIndex) const
@@ -2081,10 +2208,10 @@ void WorkstationCalibrationPage::updateMoveSequenceSelectionAfterMotion(const QS
         for (int stepIndex = currentIndex; stepIndex > targetIndex; --stepIndex) {
             reached.remove(stepIndex);
         }
-        return;
+    } else {
+        reached.insert(targetIndex);
     }
-
-    reached.insert(targetIndex);
+    refreshMoveSequenceStepButtons(workstationName);
 }
 
 void WorkstationCalibrationPage::handleMoveSequenceStepClick(const QString& workstationName,
@@ -2099,6 +2226,12 @@ void WorkstationCalibrationPage::handleMoveSequenceStepClick(const QString& work
                                  QStringLiteral("\u4e00\u6b21\u53ea\u80fd\u6267\u884c\u4e0a\u4e00\u6b65\u6216\u4e0b\u4e00\u6b65")),
                           true);
         return;
+    }
+
+    if (currentIndex < 0 && stepIndex == 0 && !m_startAxisPositionsByWorkstation.contains(workstationName)) {
+        if (const WorkstationCalibration* calibration = m_workflowService.findCalibration(m_calibrations, workstationName)) {
+            captureStartAxisPositions(*calibration);
+        }
     }
 
     QString moveAxisName = axisName;
@@ -2439,18 +2572,28 @@ QWidget* WorkstationCalibrationPage::createMoveSequenceCard(const WorkstationCal
 
     auto* startButton = new QPushButton(textForKey(QStringLiteral("start_position")), container);
     startButton->setFixedSize(92, 74);
-    startButton->setStyleSheet((currentIndex < 0 && startReached)
+    startButton->setStyleSheet(!m_calibrationInteractionEnabled
         ? QStringLiteral(
-            "QPushButton{background:#dbe9f5;border:2px solid #4f89bd;border-radius:10px;"
-            "font-size:12px;font-weight:700;color:#163a5c;padding:5px;}")
+            "QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;"
+            "font-size:12px;font-weight:700;color:#7b8794;padding:6px;}"
+            "QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}")
+        : (currentIndex < 0 && startReached)
+        ? QStringLiteral(
+            "QPushButton{background:#dbe9f5;border:2px solid #2188d9;border-radius:10px;"
+            "font-size:12px;font-weight:700;color:#123f66;padding:5px;}")
         : startReached
         ? QStringLiteral(
-            "QPushButton{background:#e8f6ea;border:1px solid #84c694;border-radius:10px;"
-            "font-size:12px;font-weight:700;color:#23633a;padding:6px;}")
+            "QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;"
+            "font-size:12px;font-weight:700;color:#155c2d;padding:5px;}"
+            "QPushButton:hover{background:#e3f7e8;}"
+            "QPushButton:pressed{background:#d2efdc;}")
         : QStringLiteral(
-            "QPushButton{background:#f8fafc;border:1px dashed #cbd7e3;border-radius:10px;"
-            "font-size:12px;font-weight:700;color:#688099;padding:6px;}"));
-    startButton->setEnabled(!calibration.startPositionCommand.trimmed().isEmpty());
+            "QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;"
+            "font-size:12px;font-weight:700;color:#155c2d;padding:5px;}"
+            "QPushButton:hover{background:#e3f7e8;}"
+            "QPushButton:pressed{background:#d2efdc;}"
+            "QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;color:#7b8794;}"));
+    startButton->setEnabled(m_calibrationInteractionEnabled);
     startButton->setToolTip(trText(m_languageCode,
                                    QStringLiteral("Click to execute the start-position command"),
                                    QStringLiteral("\u70b9\u51fb\u6267\u884c\u8d77\u59cb\u4f4d\u547d\u4ee4")));
@@ -2487,40 +2630,44 @@ QWidget* WorkstationCalibrationPage::createMoveSequenceCard(const WorkstationCal
         stepButton->setFixedSize(108, 74);
         const bool isCurrent = (index == currentIndex);
         const bool isReached = reachedSteps.contains(index);
-        stepButton->setStyleSheet(arrivalActive && isCurrent
+        const bool canMoveFromStart = (startReached && currentIndex < 0 && index == 0);
+        const bool canMoveAdjacent = (startReached && currentIndex >= 0 && (index == currentIndex - 1 || index == currentIndex + 1));
+        const bool canClick = canMoveFromStart || canMoveAdjacent;
+        stepButton->setStyleSheet(!m_calibrationInteractionEnabled
+            ? QStringLiteral(
+                "QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;"
+                "font-size:12px;font-weight:700;color:#7b8794;padding:6px;}"
+                "QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}")
+            : isCurrent && arrivalActive
             ? QStringLiteral(
                 "QPushButton{background:#d8effb;border:2px solid #2a8cc7;border-radius:10px;"
                 "font-size:12px;font-weight:700;color:#0f4d74;padding:5px;}")
-            : arrivalActive
+            : isCurrent
+            ? QStringLiteral(
+                "QPushButton{background:#dbe9f5;border:2px solid #2188d9;border-radius:10px;"
+                "font-size:12px;font-weight:700;color:#123f66;padding:5px;}"
+                "QPushButton:disabled{background:#dbe9f5;border:2px solid #2188d9;color:#123f66;}")
+            : canClick && arrivalActive
             ? QStringLiteral(
                 "QPushButton{background:#ecf8ee;border:2px solid #4aaf63;border-radius:10px;"
                 "font-size:12px;font-weight:700;color:#21613a;padding:5px;}")
-            : isCurrent
+            : canClick
             ? QStringLiteral(
-                "QPushButton{background:#dbe9f5;border:2px solid #4f89bd;border-radius:10px;"
-                "font-size:12px;font-weight:700;color:#163a5c;padding:5px;}"
-                "QPushButton:hover{background:#d4e4f2;}"
-                "QPushButton:pressed{background:#c7dbec;}")
-            : isReached
-            ? QStringLiteral(
-                "QPushButton{background:#e8f6ea;border:1px solid #84c694;border-radius:10px;"
-                "font-size:12px;font-weight:700;color:#23633a;padding:6px;}"
-                "QPushButton:hover{background:#def1e1;border-color:#66ae78;}"
-                "QPushButton:pressed{background:#d0e8d5;}")
+                "QPushButton{background:#f0fbf2;border:2px solid #31a354;border-radius:10px;"
+                "font-size:12px;font-weight:700;color:#155c2d;padding:5px;}"
+                "QPushButton:hover{background:#e3f7e8;}"
+                "QPushButton:pressed{background:#d2efdc;}")
             : QStringLiteral(
-                "QPushButton{background:#f5f8fb;border:1px solid #cdd8e3;border-radius:10px;"
-                "font-size:12px;font-weight:700;color:#1f4b75;padding:6px;}"
-                "QPushButton:hover{background:#eef5fb;border-color:#90abc4;}"
-                "QPushButton:pressed{background:#ddeaf5;}"));
+                "QPushButton{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;"
+                "font-size:12px;font-weight:700;color:#7b8794;padding:6px;}"
+                "QPushButton:disabled{background:#edf1f5;border:1px solid #cbd5df;border-radius:10px;color:#7b8794;}"));
         stepButton->setProperty("arrivalSensorVariable", sensorVariable);
         stepButton->setProperty("stepIndex", index);
         stepButton->setProperty("workstationName", calibration.calibrationName);
         stepButton->setProperty("isCurrentMoveStep", isCurrent);
         stepButton->setProperty("isReachedMoveStep", isReached);
         stepButton->setProperty("isArrivalActive", arrivalActive);
-        const bool canMoveFromStart = (startReached && currentIndex < 0 && index == 0);
-        const bool canMoveAdjacent = (startReached && currentIndex >= 0 && (index == currentIndex - 1 || index == currentIndex + 1));
-        stepButton->setEnabled(canMoveFromStart || canMoveAdjacent);
+        stepButton->setEnabled(m_calibrationInteractionEnabled && canClick);
         stepButton->setToolTip(trText(m_languageCode,
                                       QStringLiteral("Move %1 to %2 %3. Only adjacent steps are allowed.").arg(step.axisName).arg(step.targetPosition, 0, 'f', 3).arg(unit),
                                       QStringLiteral("\u5c06 %1 \u79fb\u52a8\u5230 %2 %3\u3002\u4ec5\u5141\u8bb8\u6267\u884c\u76f8\u90bb\u6b65\u9aa4\u3002").arg(step.axisName).arg(step.targetPosition, 0, 'f', 3).arg(unit)));
@@ -2577,41 +2724,7 @@ void WorkstationCalibrationPage::refreshAxisPositions()
         }
     }
 
-    for (int index = 0; index < calibration->moveSequence.size(); ++index) {
-        QPushButton* stepButton = m_moveStepButtons.value(QStringLiteral("%1|%2").arg(calibration->calibrationName).arg(index), nullptr);
-        if (!stepButton) {
-            continue;
-        }
-
-        const QString sensorVariable = stepButton->property("arrivalSensorVariable").toString().trimmed();
-        const bool isCurrent = stepButton->property("isCurrentMoveStep").toBool();
-        const bool isReached = stepButton->property("isReachedMoveStep").toBool();
-        bool arrivalActive = false;
-        QString arrivalError;
-        if (!sensorVariable.isEmpty() && m_controllerService.isConnected()) {
-            int sensorValue = 0;
-            if (m_controllerService.readIntegerVariable(sensorVariable, &sensorValue, &arrivalError)) {
-                arrivalActive = sensorValue != 0;
-            }
-        }
-
-        stepButton->setStyleSheet(arrivalActive && isCurrent
-            ? QStringLiteral("QPushButton{background:#d8effb;border:2px solid #2a8cc7;border-radius:10px;font-size:12px;font-weight:700;color:#0f4d74;padding:5px;}")
-            : arrivalActive
-            ? QStringLiteral("QPushButton{background:#ecf8ee;border:2px solid #4aaf63;border-radius:10px;font-size:12px;font-weight:700;color:#21613a;padding:5px;}")
-            : isCurrent
-            ? QStringLiteral("QPushButton{background:#dbe9f5;border:2px solid #4f89bd;border-radius:10px;font-size:12px;font-weight:700;color:#163a5c;padding:5px;}QPushButton:hover{background:#d4e4f2;}QPushButton:pressed{background:#c7dbec;}")
-            : isReached
-            ? QStringLiteral("QPushButton{background:#e8f6ea;border:1px solid #84c694;border-radius:10px;font-size:12px;font-weight:700;color:#23633a;padding:6px;}QPushButton:hover{background:#def1e1;border-color:#66ae78;}QPushButton:pressed{background:#d0e8d5;}")
-            : QStringLiteral("QPushButton{background:#f5f8fb;border:1px solid #cdd8e3;border-radius:10px;font-size:12px;font-weight:700;color:#1f4b75;padding:6px;}QPushButton:hover{background:#eef5fb;border-color:#90abc4;}QPushButton:pressed{background:#ddeaf5;}"));
-
-        if (!sensorVariable.isEmpty()) {
-            stepButton->setToolTip(trText(
-                m_languageCode,
-                QStringLiteral("Arrival sensor: %1").arg(sensorVariable),
-                QStringLiteral("\u5230\u4f4d\u4f20\u611f\u5668: %1").arg(sensorVariable)));
-        }
-    }
+    refreshMoveSequenceStepButtons(calibration->calibrationName);
 }
 
 QWidget* WorkstationCalibrationPage::createModuleWidget(const CalibrationModule& module, bool includeAxisConfig)

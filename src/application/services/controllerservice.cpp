@@ -124,6 +124,11 @@ bool ControllerService::executeCommand(const QString& commandText, QString* resp
     return m_controllerAdapter && m_controllerAdapter->executeCommand(commandText, response, errorMessage);
 }
 
+bool ControllerService::isProgramBufferRunning(int bufferNumber, bool* running, QString* errorMessage) const
+{
+    return m_controllerAdapter && m_controllerAdapter->isProgramBufferRunning(bufferNumber, running, errorMessage);
+}
+
 bool ControllerService::moveAxisRelative(int axisNumber, double distance, double velocity, QString* errorMessage)
 {
     return m_controllerAdapter && m_controllerAdapter->moveAxisRelative(axisNumber, distance, velocity, errorMessage);

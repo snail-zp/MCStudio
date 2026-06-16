@@ -813,6 +813,63 @@ const AxisPerformanceSeries* findSeriesByKey(const QVector<AxisPerformanceSeries
     return nullptr;
 }
 
+QVector<AxisPerformanceSeries> displaySeriesForTest(const AxisPerformanceImportedTestResult& test,
+                                                    const QString& languageCode)
+{
+    QVector<AxisPerformanceSeries> series = test.series;
+    if (test.key != QStringLiteral("dynamic_capability")) {
+        return series;
+    }
+
+    const AxisPerformanceSeries* velocitySeries = findSeriesByKey(series, {QStringLiteral("velocity"), QStringLiteral("vel")});
+    if (!velocitySeries || velocitySeries->values.isEmpty()) {
+        return series;
+    }
+
+    int maxIndex = -1;
+    double maxValue = 0.0;
+    double maxAbsValue = -1.0;
+    for (int index = 0; index < velocitySeries->values.size(); ++index) {
+        const double value = velocitySeries->values.at(index);
+        if (!std::isfinite(value)) {
+            continue;
+        }
+        const double absValue = std::abs(value);
+        if (absValue > maxAbsValue) {
+            maxAbsValue = absValue;
+            maxValue = value;
+            maxIndex = index;
+        }
+    }
+
+    if (maxIndex < 0) {
+        return series;
+    }
+
+    AxisPerformanceSeries marker;
+    marker.key = QStringLiteral("max_velocity_marker");
+    marker.name = trText(languageCode, QStringLiteral("Max Velocity"), QString::fromUtf8(u8"最大速度"));
+    marker.unit = velocitySeries->unit;
+    marker.renderStyle = QStringLiteral("marker");
+    marker.values.fill(std::numeric_limits<double>::quiet_NaN(), velocitySeries->values.size());
+    marker.values[maxIndex] = maxValue;
+    series.push_back(marker);
+    return series;
+}
+
+QString executionWarningForDocument(const AxisPerformanceImportedDocument& document)
+{
+    for (const AxisPerformanceImportedAxisResult& axis : document.axes) {
+        for (const AxisPerformanceImportedTestResult& test : axis.tests) {
+            const QString warning = test.meta.value(QStringLiteral("executionWarning")).trimmed();
+            if (!warning.isEmpty()) {
+                return warning;
+            }
+        }
+    }
+    return QString();
+}
+
 QString axisSummaryText(const AxisPerformanceAxis& axis)
 {
     const QString axisName = axis.axisName.trimmed().isEmpty() ? QStringLiteral("Axis") : axis.axisName.trimmed();
@@ -1433,15 +1490,22 @@ void AxisPerformancePage::runTestItem()
         self->handleExecutionSelectionChanged();
 
         if (!outcome.ok) {
-            self->showStatusMessage(
-                outcome.errorMessage.isEmpty()
-                    ? trText(self->m_languageCode, QStringLiteral("Failed to run test"), QString::fromUtf8(u8"运行测试失败"))
-                    : outcome.errorMessage,
-                true);
+            const QString message = outcome.errorMessage.isEmpty()
+                                        ? trText(self->m_languageCode,
+                                                 QStringLiteral("Failed to run test; the performance-test buffer may have stopped abnormally."),
+                                                 QString::fromUtf8(u8"运行测试失败，性能测试 buffer 可能已异常停止。"))
+                                        : outcome.errorMessage;
+            self->showStatusMessage(message, true);
+            QMessageBox::warning(self,
+                                 trText(self->m_languageCode,
+                                        QStringLiteral("Buffer execution warning"),
+                                        QString::fromUtf8(u8"Buffer 执行警告")),
+                                 message);
             return;
         }
 
         self->m_workflowService.recomputeDocumentMetrics(&outcome.liveDocument, self->m_profiles, self->m_languageCode);
+        const QString executionWarning = executionWarningForDocument(outcome.liveDocument);
         self->m_workflowService.mergeResultDocuments(&self->m_resultDocument, outcome.liveDocument);
         self->populateResultSelectors();
         self->selectResultViewForTest(outcome.axisNumber, outcome.testKey);
@@ -1463,6 +1527,15 @@ void AxisPerformancePage::runTestItem()
             self->refreshResultView();
         }
         self->setReportPanelVisible(true);
+        if (!executionWarning.isEmpty()) {
+            self->showStatusMessage(executionWarning, true);
+            QMessageBox::warning(self,
+                                 trText(self->m_languageCode,
+                                        QStringLiteral("Buffer execution warning"),
+                                        QString::fromUtf8(u8"Buffer 执行警告")),
+                                 executionWarning);
+            return;
+        }
         self->showStatusMessage(
             trText(self->m_languageCode,
                    QStringLiteral("Test completed: %1").arg(outcome.testDisplayName),
@@ -1800,7 +1873,8 @@ void AxisPerformancePage::refreshResultView()
         }
     }
 
-    chartWidget->setSeries(test.series);
+    const QVector<AxisPerformanceSeries> displaySeries = displaySeriesForTest(test, m_languageCode);
+    chartWidget->setSeries(displaySeries);
     const ChartAxisInfo axisInfo = buildChartAxisInfo(test);
     chartWidget->setXAxisInfo(axisInfo.xTitle, axisInfo.xLeft, axisInfo.xCenter, axisInfo.xRight);
     chartWidget->setYAxisInfo(axisInfo.yTitle);
@@ -1966,7 +2040,7 @@ QString AxisPerformancePage::buildReportHtml() const
                     << "</td></tr>";
             }
             out << "</table>";
-            const QString chartImageDataUrl = buildInlineSeriesChartDataUrl(test.series, buildChartAxisInfo(test));
+            const QString chartImageDataUrl = buildInlineSeriesChartDataUrl(displaySeriesForTest(test, m_languageCode), buildChartAxisInfo(test));
             if (!chartImageDataUrl.isEmpty()) {
                 out << "<div style=\"margin:12px 0 20px 0;overflow-x:auto;\">"
                     << "<div style=\"font-weight:600;margin-bottom:8px;\">"

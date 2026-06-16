@@ -11,6 +11,8 @@
 
 namespace
 {
+constexpr int kAxisPerformanceBuffer = 32;
+
 double convertUnitValue(double value, const QString& fromUnit, const QString& toUnit)
 {
     const QString from = fromUnit.trimmed().toLower();
@@ -323,20 +325,20 @@ bool AxisPerformanceExecutionService::startSuiteLabel(const QString& labelName, 
 {
     QString response;
     QString stopError;
-    m_controllerService.executeCommand(QStringLiteral("STOP 32"), &response, &stopError);
+    m_controllerService.executeCommand(QStringLiteral("STOP %1").arg(kAxisPerformanceBuffer), &response, &stopError);
 
     QString startError;
-    if (m_controllerService.executeCommand(QStringLiteral("START 32,%1").arg(labelName), &response, &startError)) {
+    if (m_controllerService.executeCommand(QStringLiteral("START %1,%2").arg(kAxisPerformanceBuffer).arg(labelName), &response, &startError)) {
         return true;
     }
 
     if (startError.contains(QStringLiteral("3044")) || startError.contains(QStringLiteral("program is running"), Qt::CaseInsensitive)) {
         response.clear();
         stopError.clear();
-        m_controllerService.executeCommand(QStringLiteral("STOP 32"), &response, &stopError);
+        m_controllerService.executeCommand(QStringLiteral("STOP %1").arg(kAxisPerformanceBuffer), &response, &stopError);
         QThread::msleep(100);
         startError.clear();
-        if (m_controllerService.executeCommand(QStringLiteral("START 32,%1").arg(labelName), &response, &startError)) {
+        if (m_controllerService.executeCommand(QStringLiteral("START %1,%2").arg(kAxisPerformanceBuffer).arg(labelName), &response, &startError)) {
             return true;
         }
     }
@@ -353,6 +355,8 @@ bool AxisPerformanceExecutionService::waitForControllerCompletion(const QString&
                                                                   QString* errorMessage) const
 {
     const qint64 deadline = QDateTime::currentMSecsSinceEpoch() + timeoutMs;
+    const qint64 bufferStateGraceDeadline = QDateTime::currentMSecsSinceEpoch() + 1500;
+    bool observedBufferRunning = false;
     while (QDateTime::currentMSecsSinceEpoch() < deadline) {
         int doneValue = 0;
         if (!readControllerInteger(doneVariable, &doneValue, errorMessage)) {
@@ -371,6 +375,21 @@ bool AxisPerformanceExecutionService::waitForControllerCompletion(const QString&
                 *errorMessage = QStringLiteral("%1 reported error code %2").arg(errorVariable).arg(errorValue);
             }
             return false;
+        }
+
+        bool bufferRunning = false;
+        QString bufferStateError;
+        if (m_controllerService.isProgramBufferRunning(kAxisPerformanceBuffer, &bufferRunning, &bufferStateError)) {
+            observedBufferRunning = observedBufferRunning || bufferRunning;
+            if (!bufferRunning
+                && (observedBufferRunning || QDateTime::currentMSecsSinceEpoch() > bufferStateGraceDeadline)) {
+                if (errorMessage) {
+                    *errorMessage = QStringLiteral("Performance-test buffer %1 stopped before %2 was set; it may have been stopped externally or aborted.")
+                                        .arg(kAxisPerformanceBuffer)
+                                        .arg(doneVariable);
+                }
+                return false;
+            }
         }
 
         QCoreApplication::processEvents(QEventLoop::AllEvents, 50);
